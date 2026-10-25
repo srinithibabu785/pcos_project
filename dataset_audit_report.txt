@@ -1,0 +1,87 @@
+================================================================================
+PCOS ULTRASOUND DATASET AUDIT & QUALITY REPORT
+Project: An Explainable AI-Based Ensemble Transfer Learning Approach
+         for Early PCOS Prediction and Clinical Decision Support
+================================================================================
+
+1. DATASET SOURCE & ARCHIVE INSPECTION
+--------------------------------------------------
+Dataset Archive Location : C:\Users\srini\Documents\pcos_project\dataset\datasett.zip
+Archive File Size        : 390,363,957 bytes (~372.28 MB)
+Total Archive Entries    : 11784
+Top-Level Directory      : PCOS/
+Class Subdirectories     : infected (Class 1), noninfected (Class 0)
+Documentation / Readme   : NONE FOUND inside ZIP archive.
+
+2. CLASS DISTRIBUTION & RAW BALANCE
+--------------------------------------------------
+  Class 'infected': 6,784 images (57.57%)
+  Class 'noninfected': 5,000 images (42.43%)
+Total Raw Images: 11,784
+Raw Imbalance Ratio: 1.36:1
+
+3. IMAGE FORMATS, MODES & DIMENSIONS
+--------------------------------------------------
+Image Formats Detected   : {'JPEG': 11784}
+Color Modes (Channels)   : {'RGB': 11784} (100% 3-channel RGB)
+Corrupted / Unreadable   : 0
+Empty (0-byte) Files     : 0
+Unique Dimension Shapes  : 1370 distinct resolutions
+Top 10 Most Frequent Dimensions:
+  300x300 : 1,590 images (13.49%)
+  984x848 : 1,433 images (12.16%)
+  850x578 : 960 images (8.15%)
+  630x436 : 859 images (7.29%)
+  315x160 : 727 images (6.17%)
+  225x225 : 528 images (4.48%)
+  343x343 : 480 images (4.07%)
+  320x320 : 444 images (3.77%)
+  299x266 : 412 images (3.50%)
+  280x259 : 400 images (3.39%)
+
+4. DUPLICATION & SYNTHETIC INFLATION AUDIT (CRITICAL FINDING)
+--------------------------------------------------
+Total Raw Images           : 11,784
+Total Unique SHA-256 Hashes: 3,996
+Exact Duplicate Groups     : 1,956
+Total Redundant Copies     : 7,788 (66.09% of raw dataset!)
+  - Unique Infected Images : 3,184 (out of 6,784 raw)
+  - Unique Noninfected     : 812 (out of 5,000 raw)
+Prefix Duplication Mechanisms Identified:
+  - Image_XXX.jpg, Image_SETA_XXX.jpg, and Image_SETB_XXX.jpg are 100% exact byte duplicates.
+  - Image_Rotate_ and Image_Rotate_Rotate_Right_ are 90/180/270 degree rotated variants.
+  - Image_resize_ are downscaled (e.g. 112x112) or transposed (e.g. 848x984 vs 984x848) copies.
+
+5. DATA LEAKAGE RISKS & RESOLUTION PROTOCOL
+--------------------------------------------------
+RISK: If random train/test splitting was applied to the raw archive, exact duplicates
+and rotated/resized twins of the same physical scan would enter both Train and Test.
+This would produce an artificially inflated, fraudulent accuracy (e.g. 99-100%)
+while completely failing on unseen clinical data.
+CROSS-LABEL CONFLICT: 18 perceptual groups have identical visual content but contradictory
+labels (e.g., infected/image10441.jpg vs noninfected/Image_333.jpg, mean pixel diff 0.98/255).
+RESOLUTION:
+1. Quarantine and remove the 18 contradictory cross-class ground-truth conflict pairs.
+2. De-duplicate all redundant binary copies.
+3. Group all augmented variants into strict Image Families (Group-aware splitting).
+4. Enforce ZERO family overlap across Train, Validation, and Test sets.
+5. Keep Test set 100% isolated, un-augmented, and unseen until final evaluation.
+
+6. LABEL SEMANTICS VERIFICATION
+--------------------------------------------------
+AUDIT VERDICT:
+Label semantics could not be independently verified from the supplied dataset.
+No clinical protocol, institutional ethics documentation, or physician codebook
+was included in datasett.zip.
+In open-source ML conventions, 'infected' is used colloquially for PCOS-positive
+(polycystic ovarian morphology) and 'noninfected' for PCOS-negative (normal morphology).
+For academic integrity, this pipeline treats these as research proxy labels and frames
+the system as an Explainable AI Clinical Decision Support prototype, not a definitive diagnosis.
+
+7. CLEANED DATASET METRICS FOR MODEL TRAINING
+--------------------------------------------------
+Unique Deduplicated Images   : ~3,950 images (exact count post cross-conflict removal)
+Estimated Clean Distribution : ~3,150 PCOS-positive (Class 1) vs ~800 Normal (Class 0)
+Clean Imbalance Ratio        : ~3.94 : 1
+Class Imbalance Mitigation   : Dynamic Inverse Class Weighting (w0=2.47, w1=0.63)
+================================================================================

@@ -1,0 +1,17 @@
+{
+  "optimal_threshold": 0.6,
+  "criterion": "Balanced Accuracy on Validation Set",
+  "validation_metrics": {
+    "threshold": 0.6,
+    "accuracy": 0.9837,
+    "precision": 0.9919,
+    "recall_sensitivity": 0.9879,
+    "specificity": 0.9661,
+    "f1_score": 0.9899,
+    "balanced_accuracy": 0.977,
+    "tn": 114,
+    "fp": 4,
+    "fn": 6,
+    "tp": 489
+  }
+}

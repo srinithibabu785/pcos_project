@@ -1,0 +1,167 @@
+{
+  "zip_path": "C:\\Users\\srini\\Documents\\pcos_project\\dataset\\datasett.zip",
+  "total_entries": 11784,
+  "classes": {
+    "infected": 6784,
+    "noninfected": 5000
+  },
+  "formats": {
+    "JPEG": 11784
+  },
+  "modes": {
+    "RGB": 11784
+  },
+  "top_dimensions": [
+    [
+      [
+        300,
+        300
+      ],
+      1590
+    ],
+    [
+      [
+        984,
+        848
+      ],
+      1433
+    ],
+    [
+      [
+        850,
+        578
+      ],
+      960
+    ],
+    [
+      [
+        630,
+        436
+      ],
+      859
+    ],
+    [
+      [
+        315,
+        160
+      ],
+      727
+    ],
+    [
+      [
+        225,
+        225
+      ],
+      528
+    ],
+    [
+      [
+        343,
+        343
+      ],
+      480
+    ],
+    [
+      [
+        320,
+        320
+      ],
+      444
+    ],
+    [
+      [
+        299,
+        266
+      ],
+      412
+    ],
+    [
+      [
+        280,
+        259
+      ],
+      400
+    ],
+    [
+      [
+        848,
+        984
+      ],
+      396
+    ],
+    [
+      [
+        233,
+        216
+      ],
+      386
+    ],
+    [
+      [
+        578,
+        850
+      ],
+      262
+    ],
+    [
+      [
+        160,
+        315
+      ],
+      183
+    ],
+    [
+      [
+        436,
+        630
+      ],
+      180
+    ],
+    [
+      [
+        150,
+        150
+      ],
+      104
+    ],
+    [
+      [
+        266,
+        299
+      ],
+      84
+    ],
+    [
+      [
+        259,
+        280
+      ],
+      67
+    ],
+    [
+      [
+        216,
+        233
+      ],
+      60
+    ],
+    [
+      [
+        149,
+        133
+      ],
+      56
+    ]
+  ],
+  "unique_dimensions_count": 1370,
+  "empty_files_count": 0,
+  "corrupted_files_count": 0,
+  "unique_sha256_count": 3996,
+  "exact_duplicate_groups": 1956,
+  "total_redundant_sha_copies": 7788,
+  "cross_class_exact_duplicates": 0,
+  "unique_dhash_count": 3617,
+  "near_duplicate_groups": 2007,
+  "cross_class_near_duplicates": 18,
+  "doc_files": []
+}
