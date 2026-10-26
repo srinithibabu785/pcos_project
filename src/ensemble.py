@@ -250,16 +250,14 @@ class PCOSEnsemble:
         self.w_eff = eff_weight
         self.w_dense = dense_weight
 
-    def predict_proba(self, eff_input, dense_input=None):
-        if dense_input is None:
-            dense_input = eff_input
-        p_eff = float(self.eff_model.predict(eff_input, verbose=0).ravel()[0])
-        p_dense = float(self.dense_model.predict(dense_input, verbose=0).ravel()[0])
-        return self.eff_weight * p_eff + self.dense_weight * p_dense
+    def predict_proba(self, p_eff, p_dense):
+        p_eff = np.asarray(p_eff, dtype=float)
+        p_dense = np.asarray(p_dense, dtype=float)
+        return self.w_eff * p_eff + self.w_dense * p_dense
 
-    def predict(self, eff_input, dense_input=None):
-        return int(self.predict_proba(eff_input, dense_input) >= self.threshold)
-
+    def predict(self, p_eff, p_dense):
+        return (self.predict_proba(p_eff, p_dense) >= self.threshold).astype(int)
+             
     @classmethod
     def load_config(cls, config_path):
         import json
