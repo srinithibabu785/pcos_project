@@ -227,19 +227,18 @@ if __name__ == "__main__":
     parser.add_argument("--test_csv", type=str, default="data/test.csv", help="Path to test CSV")
     args = parser.parse_args()
     run_gradcam(test_csv=args.test_csv)
-def generate_gradcam_overlay(model, image, model_type="efficientnet"):
-    """Returns an RGB overlay (numpy array) of the Grad-CAM heatmap on the image."""
-    if not isinstance(image, Image.Image):
-        image = Image.fromarray(np.array(image).astype("uint8"))
-    image = image.convert("RGB").resize(IMG_SIZE)
-    orig_np = np.array(image)
+
+def generate_gradcam_overlay(image_path, model, model_name="efficientnetb0"):
+    """Returns (score, heatmap_rgb, overlay_rgb) for the Streamlit app."""
+    pil_img = Image.open(str(image_path)).convert("RGB").resize(IMG_SIZE)
+    orig_np = np.array(pil_img)
 
     arr = tf.cast(orig_np, tf.float32)
-    mt = model_type.lower()
-    if mt == "efficientnet":
+    name = model_name.lower()
+    if "efficientnet" in name:
         arr = tf.keras.applications.efficientnet.preprocess_input(arr)
         names = ["top_conv", "block7a_project_conv"]
-    elif mt == "densenet":
+    elif "densenet" in name:
         arr = tf.keras.applications.densenet.preprocess_input(arr)
         names = ["conv5_block16_2_conv", "relu"]
     else:
@@ -258,4 +257,3 @@ def generate_gradcam_overlay(model, image, model_type="efficientnet"):
 
     overlay = cv2.addWeighted(orig_np, 0.6, jet_heatmap, 0.4, 0)
     return None, jet_heatmap, overlay
-
