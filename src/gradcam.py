@@ -257,4 +257,5 @@ def generate_gradcam_overlay(model, image, model_type="efficientnet"):
     jet_heatmap = np.uint8(jet_colors[heatmap_uint8] * 255)
 
     overlay = cv2.addWeighted(orig_np, 0.6, jet_heatmap, 0.4, 0)
-    return overlay
+             return None, jet_heatmap, overlay
+
