@@ -132,3 +132,22 @@ def create_dataset(
 
     ds = ds.prefetch(buffer_size=AUTOTUNE)
     return ds
+def preprocess_image_for_model(img, model_type="efficientnet"):
+    """img: float array/tensor (224,224,3) in 0-255 range."""
+    img = tf.cast(img, tf.float32)
+    if model_type.lower() == "efficientnet":
+        img = tf.keras.applications.efficientnet.preprocess_input(img)
+    elif model_type.lower() == "densenet":
+        img = tf.keras.applications.densenet.preprocess_input(img)
+    else:
+        img = img / 255.0
+    return img
+
+
+def load_and_preprocess_image(image_input, model_type="efficientnet"):
+    """image_input: file path or uploaded file. Returns batch (1,224,224,3)."""
+    from PIL import Image
+    img = Image.open(image_input).convert("RGB").resize(IMG_SIZE)
+    arr = np.array(img, dtype=np.float32)
+    arr = preprocess_image_for_model(arr, model_type)
+    return np.expand_dims(arr, axis=0)
