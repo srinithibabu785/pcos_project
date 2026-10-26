@@ -295,5 +295,8 @@ def get_risk_category(probability: float) -> dict:
         "recommendation": advice,
         "description": advice,
         "message": advice,
+        "clinical_note": advice,
+        "note": advice,
+        "next_steps": advice,
         "probability": p,
     }
