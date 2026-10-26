@@ -236,6 +236,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
     args = parser.parse_args()
     evaluate_ensemble(test_csv=args.test_csv, batch_size=args.batch_size)
+
 class PCOSEnsemble:
     """Soft-voting ensemble of EfficientNetB0 and DenseNet121."""
 
@@ -257,14 +258,6 @@ class PCOSEnsemble:
     def predict(self, eff_input, dense_input=None):
         return int(self.predict_proba(eff_input, dense_input) >= self.threshold)
 
-
-def get_risk_category(probability: float) -> str:
-    if probability < 0.30:
-        return "Low Risk"
-
-    elif probability < 0.60:
-        return "Moderate Risk"
-    return "High Risk"
     @classmethod
     def load_config(cls, config_path):
         import json
@@ -279,3 +272,11 @@ def get_risk_category(probability: float) -> str:
             dense_weight=cfg.get("dense_weight", cfg.get("densenet_weight", 0.5)),
             threshold=cfg.get("threshold", cfg.get("optimal_threshold", 0.5)),
         )
+
+
+def get_risk_category(probability: float) -> str:
+    if probability < 0.30:
+        return "Low Risk"
+    elif probability < 0.60:
+        return "Moderate Risk"
+    return "High Risk"
