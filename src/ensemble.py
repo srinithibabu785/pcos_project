@@ -261,6 +261,21 @@ class PCOSEnsemble:
 def get_risk_category(probability: float) -> str:
     if probability < 0.30:
         return "Low Risk"
+
     elif probability < 0.60:
         return "Moderate Risk"
     return "High Risk"
+    @classmethod
+    def load_config(cls, config_path):
+        import json
+        cfg = {}
+        try:
+            with open(config_path, "r") as f:
+                cfg = json.load(f)
+        except Exception:
+            pass
+        return cls(
+            eff_weight=cfg.get("eff_weight", cfg.get("efficientnet_weight", 0.5)),
+            dense_weight=cfg.get("dense_weight", cfg.get("densenet_weight", 0.5)),
+            threshold=cfg.get("threshold", cfg.get("optimal_threshold", 0.5)),
+        )
