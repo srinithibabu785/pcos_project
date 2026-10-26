@@ -236,3 +236,31 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
     args = parser.parse_args()
     evaluate_ensemble(test_csv=args.test_csv, batch_size=args.batch_size)
+class PCOSEnsemble:
+    """Soft-voting ensemble of EfficientNetB0 and DenseNet121."""
+
+    def __init__(self, eff_model=None, dense_model=None,
+                 eff_weight=0.5, dense_weight=0.5, threshold=0.5):
+        self.eff_model = eff_model
+        self.dense_model = dense_model
+        self.eff_weight = eff_weight
+        self.dense_weight = dense_weight
+        self.threshold = threshold
+
+    def predict_proba(self, eff_input, dense_input=None):
+        if dense_input is None:
+            dense_input = eff_input
+        p_eff = float(self.eff_model.predict(eff_input, verbose=0).ravel()[0])
+        p_dense = float(self.dense_model.predict(dense_input, verbose=0).ravel()[0])
+        return self.eff_weight * p_eff + self.dense_weight * p_dense
+
+    def predict(self, eff_input, dense_input=None):
+        return int(self.predict_proba(eff_input, dense_input) >= self.threshold)
+
+
+def get_risk_category(probability: float) -> str:
+    if probability < 0.30:
+        return "Low Risk"
+    elif probability < 0.60:
+        return "Moderate Risk"
+    return "High Risk"
