@@ -1,0 +1,27 @@
+{
+    "target_size": [
+        224,
+        224
+    ],
+    "color_mode": "RGB",
+    "channels": 3,
+    "classes": [
+        "Healthy",
+        "PCOS"
+    ],
+    "class_indices": {
+        "healthy": 0,
+        "infected": 1
+    },
+    "augmentation_training_only": {
+        "random_flip": "horizontal",
+        "random_rotation_factor": 0.05,
+        "random_zoom_factor": 0.05,
+        "random_contrast_factor": 0.1,
+        "random_translation_factor": 0.05
+    },
+    "backbone_normalizations": {
+        "efficientnetb0": "tf.keras.applications.efficientnet.preprocess_input",
+        "densenet121": "tf.keras.applications.densenet.preprocess_input"
+    }
+}

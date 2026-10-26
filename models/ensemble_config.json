@@ -1,0 +1,14 @@
+{
+    "efficientnet_weight": 0.4,
+    "densenet_weight": 0.6,
+    "decision_threshold": 0.5,
+    "selection_dataset": "validation",
+    "optimization_metric": "balanced_accuracy",
+    "validation_details": {
+        "val_balanced_acc": 0.7343333333333333,
+        "val_sensitivity": 0.752,
+        "val_specificity": 0.7166666666666667,
+        "val_f1": 0.8263736263736263,
+        "val_auc": 0.79905
+    }
+}

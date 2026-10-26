@@ -1,0 +1,19 @@
+{
+    "selected_threshold": 0.5,
+    "selection_dataset": "validation",
+    "optimization_metric": "balanced_accuracy",
+    "candidate_thresholds": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5,
+        0.55,
+        0.6,
+        0.65,
+        0.7
+    ],
+    "validation_sensitivity": 0.752,
+    "validation_specificity": 0.7166666666666667,
+    "validation_f1": 0.8263736263736263
+}

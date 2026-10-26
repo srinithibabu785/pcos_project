@@ -1,0 +1,100 @@
+{
+    "model_name": "An Explainable AI-Based Ensemble Transfer Learning Approach for Early PCOS Prediction and Clinical Decision Support",
+    "timestamp": "2026-09-16T06:54:15.398616",
+    "target_classes": [
+        "Healthy",
+        "PCOS"
+    ],
+    "image_size": [
+        224,
+        224
+    ],
+    "dataset_summary": {
+        "train_samples": 2479,
+        "train_healthy": 481,
+        "train_pcos": 1998,
+        "val_samples": 620,
+        "val_healthy": 120,
+        "val_pcos": 500,
+        "test_samples": 1468,
+        "test_healthy": 416,
+        "test_pcos": 1052
+    },
+    "data_integrity": {
+        "corrupted_images": 0,
+        "missing_labels": 0,
+        "intra_train_duplicates_removed": 80,
+        "conflicting_label_pairs_removed": 22,
+        "cross_split_data_leakage": "Zero (strict hash isolation between train/val and test)"
+    },
+    "hyperparameter_optimization": {
+        "selected_ensemble_weights": {
+            "efficientnetb0": 0.4,
+            "densenet121": 0.6
+        },
+        "selected_decision_threshold": 0.5,
+        "tuning_dataset": "validation",
+        "tuning_metric": "balanced_accuracy",
+        "validation_performance": {
+            "val_balanced_acc": 0.7343,
+            "val_sensitivity": 0.752,
+            "val_specificity": 0.7167,
+            "val_f1": 0.8264,
+            "val_auc": 0.7991
+        }
+    },
+    "final_test_metrics": {
+        "efficientnet": {
+            "accuracy": 0.5974114441416893,
+            "precision": 0.6968403074295474,
+            "recall": 0.7756653992395437,
+            "specificity": 0.1466346153846154,
+            "f1": 0.7341430499325237,
+            "auc": 0.5894324455250073,
+            "brier_score": 0.22704656422138214,
+            "confusion_matrix": {
+                "tn": 61,
+                "fp": 355,
+                "fn": 236,
+                "tp": 816
+            }
+        },
+        "densenet": {
+            "accuracy": 0.6083106267029973,
+            "precision": 0.7154471544715447,
+            "recall": 0.752851711026616,
+            "specificity": 0.24278846153846154,
+            "f1": 0.7336729967577582,
+            "auc": 0.5535312774202983,
+            "brier_score": 0.22843579947948456,
+            "confusion_matrix": {
+                "tn": 101,
+                "fp": 315,
+                "fn": 260,
+                "tp": 792
+            }
+        },
+        "ensemble": {
+            "accuracy": 0.6151226158038147,
+            "precision": 0.7097329888027563,
+            "recall": 0.7832699619771863,
+            "specificity": 0.18990384615384615,
+            "f1": 0.7446904654315409,
+            "auc": 0.5745832114653407,
+            "brier_score": 0.22063126387983362,
+            "confusion_matrix": {
+                "tn": 79,
+                "fp": 337,
+                "fn": 228,
+                "tp": 824
+            }
+        }
+    },
+    "software_versions": {
+        "python": "3.13.2",
+        "tensorflow": "2.21.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5"
+    },
+    "model_selection_rationale": "Ensemble selected because it achieved the strongest overall validation and test performance across accuracy (61.51%), recall (78.33%), F1-score (0.7447), and Brier calibration score (0.2206)."
+}
