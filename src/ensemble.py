@@ -247,6 +247,8 @@ class PCOSEnsemble:
         self.eff_weight = eff_weight
         self.dense_weight = dense_weight
         self.threshold = threshold
+        self.w_eff = eff_weight
+        self.w_dense = dense_weight
 
     def predict_proba(self, eff_input, dense_input=None):
         if dense_input is None:
