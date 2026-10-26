@@ -227,3 +227,34 @@ if __name__ == "__main__":
     parser.add_argument("--test_csv", type=str, default="data/test.csv", help="Path to test CSV")
     args = parser.parse_args()
     run_gradcam(test_csv=args.test_csv)
+def generate_gradcam_overlay(model, image, model_type="efficientnet"):
+    """Returns an RGB overlay (numpy array) of the Grad-CAM heatmap on the image."""
+    if not isinstance(image, Image.Image):
+        image = Image.fromarray(np.array(image).astype("uint8"))
+    image = image.convert("RGB").resize(IMG_SIZE)
+    orig_np = np.array(image)
+
+    arr = tf.cast(orig_np, tf.float32)
+    mt = model_type.lower()
+    if mt == "efficientnet":
+        arr = tf.keras.applications.efficientnet.preprocess_input(arr)
+        names = ["top_conv", "block7a_project_conv"]
+    elif mt == "densenet":
+        arr = tf.keras.applications.densenet.preprocess_input(arr)
+        names = ["conv5_block16_2_conv", "relu"]
+    else:
+        arr = arr / 255.0
+        names = ["conv_final"]
+    img_tensor = tf.expand_dims(arr, axis=0)
+
+    target_conv = find_target_conv_layer(model, names)
+    heatmap = compute_gradcam_heatmap(model, img_tensor, target_conv)
+    heatmap_resized = cv2.resize(heatmap, (IMG_SIZE[0], IMG_SIZE[1]))
+    heatmap_uint8 = np.uint8(255 * heatmap_resized)
+
+    jet = plt.colormaps["jet"]
+    jet_colors = jet(np.arange(256))[:, :3]
+    jet_heatmap = np.uint8(jet_colors[heatmap_uint8] * 255)
+
+    overlay = cv2.addWeighted(orig_np, 0.6, jet_heatmap, 0.4, 0)
+    return overlay
