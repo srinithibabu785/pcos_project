@@ -144,10 +144,8 @@ def preprocess_image_for_model(img, model_type="efficientnet"):
     return img
 
 
-def load_and_preprocess_image(image_input, model_type="efficientnet"):
-    """image_input: file path or uploaded file. Returns batch (1,224,224,3)."""
+def load_and_preprocess_image(image_input):
+    """Returns the raw RGB image as a (224, 224, 3) array in the 0-255 range."""
     from PIL import Image
     img = Image.open(image_input).convert("RGB").resize(IMG_SIZE)
-    arr = np.array(img, dtype=np.float32)
-    arr = preprocess_image_for_model(arr, model_type)
-    return np.expand_dims(arr, axis=0)
+    return np.array(img, dtype=np.float32)
