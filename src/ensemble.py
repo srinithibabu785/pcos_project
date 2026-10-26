@@ -274,9 +274,20 @@ class PCOSEnsemble:
         )
 
 
-def get_risk_category(probability: float) -> str:
-    if probability < 0.30:
-        return "Low Risk"
-    elif probability < 0.60:
-        return "Moderate Risk"
-    return "High Risk"
+    def get_risk_category(probability: float) -> dict:
+    p = float(probability)
+    if p < 0.30:
+        tier, color, advice = "Low Risk", "green", "Routine follow-up recommended."
+    elif p < 0.60:
+        tier, color, advice = "Moderate Risk", "orange", "Clinical correlation and further testing suggested."
+    else:
+        tier, color, advice = "High Risk", "red", "Consult a gynecologist or endocrinologist for evaluation."
+    return {
+        "tier": tier,
+        "category": tier,
+        "label": tier,
+        "color": color,
+        "advice": advice,
+        "recommendation": advice,
+        "probability": p,
+    }
